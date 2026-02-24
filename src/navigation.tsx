@@ -1,0 +1,194 @@
+/**
+ * Navigation components - local implementations
+ */
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+// ============================================================================
+// NAVBAR CONTEXT
+// ============================================================================
+
+interface NavbarContextValue {
+  isMenuOpen: boolean;
+  toggleMenu: () => void;
+  closeMenu: () => void;
+}
+
+const NavbarContext = createContext<NavbarContextValue | null>(null);
+
+function useNavbarContext() {
+  const ctx = useContext(NavbarContext);
+  if (!ctx) throw new Error('Navbar components must be used within NavbarWrapper');
+  return ctx;
+}
+
+// ============================================================================
+// NAVBAR COMPONENTS
+// ============================================================================
+
+export interface NavbarSettings {
+  collapseAt?: 'medium' | 'small' | 'none';
+  animation?: 'default' | 'over-left' | 'over-right';
+  animationDuration?: number;
+  dropdownMode?: 'hover' | 'click';
+  dropdownDelay?: number;
+}
+
+export interface NavbarWrapperProps {
+  className?: string;
+  children?: React.ReactNode;
+  collapse?: 'small' | 'medium' | 'all';
+  settings?: NavbarSettings;
+}
+
+const DEFAULT_NAVBAR: Required<NavbarSettings> = {
+  collapseAt: 'medium',
+  animation: 'default',
+  animationDuration: 400,
+  dropdownMode: 'hover',
+  dropdownDelay: 300,
+};
+
+export function NavbarWrapper({ className, children, collapse, settings }: NavbarWrapperProps) {
+  const s = { ...DEFAULT_NAVBAR, ...settings };
+  // Use settings collapseAt if provided, otherwise use collapse prop, otherwise default
+  const collapseBreakpoint = s.collapseAt === 'none' ? 'none' : (collapse || s.collapseAt);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+
+  // Get breakpoint width
+  const getBreakpointWidth = () => {
+    switch (collapseBreakpoint) {
+      case 'small': return 767;
+      case 'medium': return 991;
+      default: return 991;
+    }
+  };
+
+  // Close menu on resize to desktop
+  useEffect(() => {
+    if (collapseBreakpoint === 'none') return;
+    const handleResize = () => {
+      if (window.innerWidth > getBreakpointWidth() && isMenuOpen) {
+        closeMenu();
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMenuOpen, collapseBreakpoint]);
+
+  return (
+    <NavbarContext.Provider value={{ isMenuOpen, toggleMenu, closeMenu }}>
+      <div
+        className={`${className || ''} w-nav`}
+        data-collapse={collapseBreakpoint}
+        data-animation={s.animation}
+        data-duration={s.animationDuration}
+        role="banner"
+      >
+        {children}
+        {/* Mobile overlay */}
+        {isMenuOpen && (
+          <div
+            className="w-nav-overlay w--open"
+            style={{
+              display: 'block',
+              transition: `opacity ${s.animationDuration}ms ease`,
+            }}
+          />
+        )}
+      </div>
+    </NavbarContext.Provider>
+  );
+}
+
+export function NavbarContainer({ className, children }: { className?: string; children?: React.ReactNode }) {
+  return <div className={className}>{children}</div>;
+}
+
+export interface NavbarBrandProps {
+  href?: string;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export function NavbarBrand({ href = '/', className, children }: NavbarBrandProps) {
+  return (
+    <a className={`${className || ''} w-nav-brand`} href={href} aria-label="home">
+      {children}
+    </a>
+  );
+}
+
+export interface NavbarMenuProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export function NavbarMenu({ className, children }: NavbarMenuProps) {
+  const { isMenuOpen } = useNavbarContext();
+
+  return (
+    <nav
+      className={`${className || ''} w-nav-menu ${isMenuOpen ? 'w--open' : ''}`}
+      role="navigation"
+    >
+      {children}
+    </nav>
+  );
+}
+
+export interface NavbarLinkProps {
+  text?: string;
+  href?: string;
+  isActive?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export function NavbarLink({ text, href = '#', isActive, className, children }: NavbarLinkProps) {
+  const { isMenuOpen, closeMenu } = useNavbarContext();
+
+  return (
+    <a
+      className={`${className || ''} w-nav-link ${isMenuOpen ? 'w--nav-link-open' : ''}`}
+      href={href}
+      aria-current={isActive ? 'page' : undefined}
+      onClick={() => closeMenu()}
+    >
+      {children || text}
+    </a>
+  );
+}
+
+export interface NavbarButtonProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export function NavbarButton({ className, children }: NavbarButtonProps) {
+  const { isMenuOpen, toggleMenu } = useNavbarContext();
+
+  return (
+    <div
+      className={`${className || ''} w-nav-button ${isMenuOpen ? 'w--open' : ''}`}
+      onClick={toggleMenu}
+      role="button"
+      tabIndex={0}
+      aria-expanded={isMenuOpen}
+      aria-label="menu"
+      aria-haspopup="menu"
+      style={{ cursor: 'pointer' }}
+    >
+      {children || (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      )}
+    </div>
+  );
+}

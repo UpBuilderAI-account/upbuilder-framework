@@ -1,0 +1,10 @@
+/**
+ * Utility functions for UI components
+ */
+
+/**
+ * Combine class names, filtering out falsy values
+ */
+export function cn(...classes: (string | undefined | null | false)[]): string {
+  return classes.filter(Boolean).join(' ');
+}
