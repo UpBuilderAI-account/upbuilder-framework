@@ -2,7 +2,13 @@
  * Dropdown components - local implementations
  */
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
-import type { DropdownProps } from '../component-props';
+
+// Dropdown configuration props
+export interface DropdownProps {
+  open?: boolean;
+  hover?: boolean;
+  delay?: number;
+}
 
 // ============================================================================
 // DROPDOWN CONTEXT

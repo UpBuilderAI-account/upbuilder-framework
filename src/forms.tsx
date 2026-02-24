@@ -2,15 +2,48 @@
  * Form components - local implementations
  */
 import React from 'react';
-import type {
-  FormProps,
-  FormInputProps,
-  FormTextareaProps as FormTextareaPropsBase,
-  FormSelectProps as FormSelectPropsBase,
-  FormCheckboxProps,
-  FormRadioProps,
-  FormLabelProps as FormLabelPropsBase,
-} from '../component-props';
+
+// Form configuration props
+export interface FormProps {
+  name?: string;
+  redirect?: string;
+}
+
+export interface FormInputProps {
+  type?: string;
+  name?: string;
+  placeholder?: string;
+  required?: boolean;
+  maxLength?: number;
+}
+
+interface FormTextareaPropsBase {
+  name?: string;
+  placeholder?: string;
+  required?: boolean;
+  maxLength?: number;
+}
+
+interface FormSelectPropsBase {
+  name?: string;
+  required?: boolean;
+}
+
+export interface FormCheckboxProps {
+  name?: string;
+  required?: boolean;
+  checked?: boolean;
+}
+
+export interface FormRadioProps {
+  name?: string;
+  value?: string;
+  required?: boolean;
+}
+
+interface FormLabelPropsBase {
+  htmlFor?: string;
+}
 
 export interface FormWrapperProps {
   className?: string;

@@ -2,7 +2,19 @@
  * Slider components - local implementations
  */
 import React, { useState, createContext, useContext, useMemo, Children, useEffect } from 'react';
-import type { SliderProps, SliderArrowProps } from '../component-props';
+
+// Slider configuration props
+export interface SliderProps {
+  animation?: string;
+  easing?: string;
+  duration?: number;
+  infinite?: boolean;
+  disableSwipe?: boolean;
+  autoplay?: boolean;
+  delay?: number;
+  autoMax?: number;
+  hideArrows?: boolean;
+}
 
 // ============================================================================
 // SLIDER CONTEXT

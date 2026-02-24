@@ -2,7 +2,20 @@
  * Tabs components - local implementations
  */
 import React, { useState, createContext, useContext, useMemo, Children } from 'react';
-import type { TabsProps, TabLinkProps, TabPaneProps } from '../component-props';
+
+// Tabs configuration props
+export interface TabsProps {
+  duration?: number;
+  easing?: string;
+}
+
+export interface TabLinkProps {
+  tabName: string;
+}
+
+export interface TabPaneProps {
+  tabName: string;
+}
 
 // ============================================================================
 // TABS CONTEXT
