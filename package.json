@@ -10,7 +10,8 @@
   },
   "files": [
     "src",
-    "defaults.css"
+    "defaults.css",
+    "examples"
   ],
   "peerDependencies": {
     "react": "^18.0.0",
