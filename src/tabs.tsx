@@ -43,6 +43,7 @@ function useTabsContext() {
 export interface TabsWrapperProps extends TabsProps {
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
 export function TabsWrapper({
@@ -52,6 +53,7 @@ export function TabsWrapper({
   easing = 'ease',
   className,
   children,
+  ...rest
 }: TabsWrapperProps) {
   const initialTab = defaultTab;
   // Collect tab names from children
@@ -83,7 +85,7 @@ export function TabsWrapper({
 
   return (
     <TabsContext.Provider value={{ activeTab, activeIndex, setActiveTab, tabNames }}>
-      <div className={`${className || ''} w-tabs`}>{children}</div>
+      <div {...rest} className={`${className || ''} w-tabs`}>{children}</div>
     </TabsContext.Provider>
   );
 }
@@ -91,14 +93,15 @@ export function TabsWrapper({
 export interface TabsMenuProps {
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function TabsMenu({ className, children }: TabsMenuProps) {
-  return <div className={`${className || ''} w-tab-menu`} role="tablist">{children}</div>;
+export function TabsMenu({ className, children, ...rest }: TabsMenuProps) {
+  return <div {...rest} className={`${className || ''} w-tab-menu`} role="tablist">{children}</div>;
 }
 
-export function TabsContent({ className, children }: TabsMenuProps) {
-  return <div className={`${className || ''} w-tab-content`}>{children}</div>;
+export function TabsContent({ className, children, ...rest }: TabsMenuProps) {
+  return <div {...rest} className={`${className || ''} w-tab-content`}>{children}</div>;
 }
 
 export interface TabsLinkProps {
@@ -107,15 +110,17 @@ export interface TabsLinkProps {
   isActive?: boolean;
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function TabsLink({ text, tabName = '', isActive, className, children }: TabsLinkProps) {
+export function TabsLink({ text, tabName = '', isActive, className, children, ...rest }: TabsLinkProps) {
   const { activeTab, setActiveTab, tabNames, activeIndex } = useTabsContext();
   const idx = tabNames.indexOf(tabName);
   const active = isActive ?? (idx >= 0 ? activeIndex === idx : activeTab === tabName);
 
   return (
     <button
+      {...rest}
       className={`${className || ''} w-tab-link ${active ? 'w--current' : ''}`}
       role="tab"
       aria-selected={active}
@@ -131,15 +136,17 @@ export interface TabsPaneProps {
   isActive?: boolean;
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function TabsPane({ tabName = '', isActive, className, children }: TabsPaneProps) {
+export function TabsPane({ tabName = '', isActive, className, children, ...rest }: TabsPaneProps) {
   const { activeTab, tabNames, activeIndex } = useTabsContext();
   const idx = tabNames.indexOf(tabName);
   const active = isActive ?? (idx >= 0 ? activeIndex === idx : activeTab === tabName);
 
   return (
     <div
+      {...rest}
       className={`${className || ''} w-tab-pane ${active ? 'w--tab-active' : ''}`}
       role="tabpanel"
       style={{ display: active ? 'block' : 'none' }}

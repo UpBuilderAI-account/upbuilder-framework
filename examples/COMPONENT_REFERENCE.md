@@ -15,7 +15,7 @@ This document shows the correct usage of ALL framework components.
 6. [Navbar Components](#navbar-components)
 7. [Dropdown & Accordion Components](#dropdown--accordion-components)
 8. [Tabs Components](#tabs-components)
-9. [Slider Components](#slider-components)
+9. [Swiper Slider Components](#swiper-slider-components)
 10. [Form Components](#form-components)
 11. [Media Components](#media-components)
 12. [CMS Components](#cms-components)
@@ -503,74 +503,104 @@ import {
 
 ---
 
-## Slider Components
+## Swiper Slider Components
+
+Uses the **Swiper** library - fully customizable with NO CSS restrictions!
 
 ### Complete Slider/Carousel Example
 
 ```tsx
 import {
-  SliderWrapper,
-  SliderMask,
-  SliderSlide,
-  SliderArrow,
-  SliderNav,
+  SwiperSlider,
+  SwiperSlide,
+  SwiperNavPrev,
+  SwiperNavNext,
+  SwiperPagination,
   Block,
   Image,
   Heading,
   Paragraph,
 } from '@upbuilder/react-framework';
 
-<SliderWrapper
+{/* Simple slider with auto-generated nav/pagination */}
+<SwiperSlider
   className="testimonial-slider"
+  navigation
+  pagination
   autoplay
-  delay={5000}
-  infinite
+  loop
 >
-  {/* Slides container */}
-  <SliderMask className="slider_mask">
-    <SliderSlide className="slider_slide">
-      <Block className="testimonial-card">
-        <Image src="avatar1.jpg" alt="Customer" className="testimonial-avatar" />
-        <Paragraph className="testimonial-text">
-          "Amazing product! Highly recommended."
-        </Paragraph>
-        <Heading as="h4" className="testimonial-name">John Doe</Heading>
-      </Block>
-    </SliderSlide>
+  <SwiperSlide className="slider_slide">
+    <Block className="testimonial-card">
+      <Image src="avatar1.jpg" alt="Customer" className="testimonial-avatar" />
+      <Paragraph className="testimonial-text">
+        "Amazing product! Highly recommended."
+      </Paragraph>
+      <Heading as="h4" className="testimonial-name">John Doe</Heading>
+    </Block>
+  </SwiperSlide>
 
-    <SliderSlide className="slider_slide">
-      <Block className="testimonial-card">
-        <Image src="avatar2.jpg" alt="Customer" className="testimonial-avatar" />
-        <Paragraph className="testimonial-text">
-          "Changed my life completely!"
-        </Paragraph>
-        <Heading as="h4" className="testimonial-name">Jane Smith</Heading>
-      </Block>
-    </SliderSlide>
+  <SwiperSlide className="slider_slide">
+    <Block className="testimonial-card">
+      <Image src="avatar2.jpg" alt="Customer" className="testimonial-avatar" />
+      <Paragraph className="testimonial-text">
+        "Changed my life completely!"
+      </Paragraph>
+      <Heading as="h4" className="testimonial-name">Jane Smith</Heading>
+    </Block>
+  </SwiperSlide>
 
-    <SliderSlide className="slider_slide">
-      <Block className="testimonial-card">
-        <Image src="avatar3.jpg" alt="Customer" className="testimonial-avatar" />
-        <Paragraph className="testimonial-text">
-          "Best purchase I ever made."
-        </Paragraph>
-        <Heading as="h4" className="testimonial-name">Bob Wilson</Heading>
-      </Block>
-    </SliderSlide>
-  </SliderMask>
+  <SwiperSlide className="slider_slide">
+    <Block className="testimonial-card">
+      <Image src="avatar3.jpg" alt="Customer" className="testimonial-avatar" />
+      <Paragraph className="testimonial-text">
+        "Best purchase I ever made."
+      </Paragraph>
+      <Heading as="h4" className="testimonial-name">Bob Wilson</Heading>
+    </Block>
+  </SwiperSlide>
+</SwiperSlider>
 
-  {/* Navigation arrows */}
-  <SliderArrow direction="left" className="slider_arrow-left">
-    <Block className="arrow-icon">←</Block>
-  </SliderArrow>
-  <SliderArrow direction="right" className="slider_arrow-right">
-    <Block className="arrow-icon">→</Block>
-  </SliderArrow>
+{/* Advanced: Custom navigation placement */}
+<SwiperSlider
+  className="testimonial-slider"
+  navigation
+  slidesPerView={3}
+  spaceBetween={20}
+>
+  <SwiperSlide>...</SwiperSlide>
+  <SwiperSlide>...</SwiperSlide>
+  <SwiperSlide>...</SwiperSlide>
 
-  {/* Dot navigation */}
-  <SliderNav className="slider_nav" />
-</SliderWrapper>
+  {/* Custom arrow placement */}
+  <Block className="slider_arrows">
+    <SwiperNavPrev className="slider_arrow-left">
+      <Block className="arrow-icon">←</Block>
+    </SwiperNavPrev>
+    <SwiperNavNext className="slider_arrow-right">
+      <Block className="arrow-icon">→</Block>
+    </SwiperNavNext>
+  </Block>
+
+  {/* Custom pagination placement */}
+  <SwiperPagination className="slider_dots" />
+</SwiperSlider>
 ```
+
+### SwiperSlider Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `slidesPerView` | `number \| 'auto'` | Slides visible at once (default: 1) |
+| `spaceBetween` | `number` | Gap between slides in px |
+| `loop` | `boolean` | Infinite loop |
+| `autoplay` | `boolean \| object` | Auto-advance slides |
+| `navigation` | `boolean` | Show prev/next arrows |
+| `pagination` | `boolean \| object` | Show pagination dots |
+| `effect` | `'slide' \| 'fade' \| 'cube' \| 'coverflow' \| 'flip'` | Transition effect |
+| `direction` | `'horizontal' \| 'vertical'` | Slide direction |
+| `centeredSlides` | `boolean` | Center active slide |
+| `grabCursor` | `boolean` | Show grab cursor |
 
 ---
 
@@ -1063,8 +1093,8 @@ import { DropdownWrapper, DropdownToggle, DropdownList, DropdownLink } from '@up
 // Tabs
 import { TabsWrapper, TabsMenu, TabsLink, TabsContent, TabsPane } from '@upbuilder/react-framework';
 
-// Slider
-import { SliderWrapper, SliderMask, SliderSlide, SliderArrow, SliderNav } from '@upbuilder/react-framework';
+// Swiper Slider (uses Swiper library - no CSS restrictions!)
+import { SwiperSlider, SwiperSlide, SwiperNavPrev, SwiperNavNext, SwiperPagination, SwiperScrollbar } from '@upbuilder/react-framework';
 
 // Forms
 import { FormWrapper, FormForm, FormBlockLabel, FormInlineLabel } from '@upbuilder/react-framework';

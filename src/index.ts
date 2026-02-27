@@ -18,8 +18,8 @@ export * from './dropdown';
 // Tabs
 export * from './tabs';
 
-// Slider
-export * from './slider';
+// Swiper Slider (full-featured slider using Swiper library)
+export * from './swiper';
 
 // Forms
 export * from './forms';

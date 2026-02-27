@@ -38,6 +38,7 @@ export interface NavbarWrapperProps {
   children?: React.ReactNode;
   collapse?: 'small' | 'medium' | 'all';
   settings?: NavbarSettings;
+  [key: string]: any;
 }
 
 const DEFAULT_NAVBAR: Required<NavbarSettings> = {
@@ -48,7 +49,7 @@ const DEFAULT_NAVBAR: Required<NavbarSettings> = {
   dropdownDelay: 300,
 };
 
-export function NavbarWrapper({ className, children, collapse, settings }: NavbarWrapperProps) {
+export function NavbarWrapper({ className, children, collapse, settings, ...rest }: NavbarWrapperProps) {
   const s = { ...DEFAULT_NAVBAR, ...settings };
   // Use settings collapseAt if provided, otherwise use collapse prop, otherwise default
   const collapseBreakpoint = s.collapseAt === 'none' ? 'none' : (collapse || s.collapseAt);
@@ -82,6 +83,7 @@ export function NavbarWrapper({ className, children, collapse, settings }: Navba
   return (
     <NavbarContext.Provider value={{ isMenuOpen, toggleMenu, closeMenu }}>
       <div
+        {...rest}
         className={`${className || ''} w-nav`}
         data-collapse={collapseBreakpoint}
         data-animation={s.animation}
@@ -104,19 +106,20 @@ export function NavbarWrapper({ className, children, collapse, settings }: Navba
   );
 }
 
-export function NavbarContainer({ className, children }: { className?: string; children?: React.ReactNode }) {
-  return <div className={className}>{children}</div>;
+export function NavbarContainer({ className, children, ...rest }: { className?: string; children?: React.ReactNode; [key: string]: any }) {
+  return <div {...rest} className={className}>{children}</div>;
 }
 
 export interface NavbarBrandProps {
   href?: string;
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function NavbarBrand({ href = '/', className, children }: NavbarBrandProps) {
+export function NavbarBrand({ href = '/', className, children, ...rest }: NavbarBrandProps) {
   return (
-    <a className={`${className || ''} w-nav-brand`} href={href} aria-label="home">
+    <a {...rest} className={`${className || ''} w-nav-brand`} href={href} aria-label="home">
       {children}
     </a>
   );
@@ -125,13 +128,15 @@ export function NavbarBrand({ href = '/', className, children }: NavbarBrandProp
 export interface NavbarMenuProps {
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function NavbarMenu({ className, children }: NavbarMenuProps) {
+export function NavbarMenu({ className, children, ...rest }: NavbarMenuProps) {
   const { isMenuOpen } = useNavbarContext();
 
   return (
     <nav
+      {...rest}
       className={`${className || ''} w-nav-menu ${isMenuOpen ? 'w--open' : ''}`}
       role="navigation"
     >
@@ -146,13 +151,15 @@ export interface NavbarLinkProps {
   isActive?: boolean;
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function NavbarLink({ text, href = '#', isActive, className, children }: NavbarLinkProps) {
+export function NavbarLink({ text, href = '#', isActive, className, children, ...rest }: NavbarLinkProps) {
   const { isMenuOpen, closeMenu } = useNavbarContext();
 
   return (
     <a
+      {...rest}
       className={`${className || ''} w-nav-link ${isMenuOpen ? 'w--nav-link-open' : ''}`}
       href={href}
       aria-current={isActive ? 'page' : undefined}
@@ -166,13 +173,15 @@ export function NavbarLink({ text, href = '#', isActive, className, children }: 
 export interface NavbarButtonProps {
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function NavbarButton({ className, children }: NavbarButtonProps) {
+export function NavbarButton({ className, children, ...rest }: NavbarButtonProps) {
   const { isMenuOpen, toggleMenu } = useNavbarContext();
 
   return (
     <div
+      {...rest}
       className={`${className || ''} w-nav-button ${isMenuOpen ? 'w--open' : ''}`}
       onClick={toggleMenu}
       role="button"

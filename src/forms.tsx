@@ -48,10 +48,11 @@ interface FormLabelPropsBase {
 export interface FormWrapperProps {
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function FormWrapper({ className, children }: FormWrapperProps) {
-  return <div className={`${className || ''} w-form`}>{children}</div>;
+export function FormWrapper({ className, children, ...rest }: FormWrapperProps) {
+  return <div {...rest} className={`${className || ''} w-form`}>{children}</div>;
 }
 
 export interface FormFormProps extends FormProps {
@@ -59,16 +60,17 @@ export interface FormFormProps extends FormProps {
   className?: string;
   children?: React.ReactNode;
   onSubmit?: (e: React.FormEvent) => void;
+  [key: string]: any;
 }
 
-export function FormForm({ name, action, method = 'post', className, children, onSubmit }: FormFormProps) {
+export function FormForm({ name, action, method = 'post', className, children, onSubmit, ...rest }: FormFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit?.(e);
   };
 
   return (
-    <form name={name} action={action} method={method} className={className} onSubmit={handleSubmit}>
+    <form {...rest} name={name} action={action} method={method} className={className} onSubmit={handleSubmit}>
       {children}
     </form>
   );
@@ -78,25 +80,28 @@ export interface FormLabelProps extends FormLabelPropsBase {
   text?: string;
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function FormBlockLabel({ text, htmlFor, className, children }: FormLabelProps) {
-  return <label htmlFor={htmlFor} className={className}>{children || text}</label>;
+export function FormBlockLabel({ text, htmlFor, className, children, ...rest }: FormLabelProps) {
+  return <label {...rest} htmlFor={htmlFor} className={className}>{children || text}</label>;
 }
 
-export function FormInlineLabel({ text, htmlFor, className, children }: FormLabelProps) {
-  return <label htmlFor={htmlFor} className={className} style={{ display: 'inline' }}>{children || text}</label>;
+export function FormInlineLabel({ text, htmlFor, className, children, ...rest }: FormLabelProps) {
+  return <label {...rest} htmlFor={htmlFor} className={className} style={{ display: 'inline' }}>{children || text}</label>;
 }
 
 export interface FormTextInputComponentProps extends FormInputProps {
   value?: string;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  [key: string]: any;
 }
 
-export function FormTextInput({ name, type = 'text', placeholder, required, value, className, onChange }: FormTextInputComponentProps) {
+export function FormTextInput({ name, type = 'text', placeholder, required, value, className, onChange, ...rest }: FormTextInputComponentProps) {
   return (
     <input
+      {...rest}
       type={type}
       name={name}
       placeholder={placeholder}
@@ -112,11 +117,13 @@ export interface FormTextareaComponentProps extends FormTextareaPropsBase {
   value?: string;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  [key: string]: any;
 }
 
-export function FormTextarea({ name, placeholder, required, value, className, onChange }: FormTextareaComponentProps) {
+export function FormTextarea({ name, placeholder, required, value, className, onChange, ...rest }: FormTextareaComponentProps) {
   return (
     <textarea
+      {...rest}
       name={name}
       placeholder={placeholder}
       required={required}
@@ -131,11 +138,12 @@ export interface FormSelectComponentProps extends FormSelectPropsBase {
   className?: string;
   children?: React.ReactNode;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  [key: string]: any;
 }
 
-export function FormSelect({ name, required, className, children, onChange }: FormSelectComponentProps) {
+export function FormSelect({ name, required, className, children, onChange, ...rest }: FormSelectComponentProps) {
   return (
-    <select name={name} required={required} className={`${className || ''} w-select`} onChange={onChange}>
+    <select {...rest} name={name} required={required} className={`${className || ''} w-select`} onChange={onChange}>
       {children}
     </select>
   );
@@ -146,18 +154,19 @@ export interface FormButtonProps {
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function FormButton({ text, type = 'submit', className, children }: FormButtonProps) {
+export function FormButton({ text, type = 'submit', className, children, ...rest }: FormButtonProps) {
   return (
-    <button type={type} className={`${className || ''} w-button`}>
+    <button {...rest} type={type} className={`${className || ''} w-button`}>
       {children || text}
     </button>
   );
 }
 
-export function FormCheckboxWrapper({ className, children }: FormWrapperProps) {
-  return <label className={`${className || ''} w-checkbox`}>{children}</label>;
+export function FormCheckboxWrapper({ className, children, ...rest }: FormWrapperProps) {
+  return <label {...rest} className={`${className || ''} w-checkbox`}>{children}</label>;
 }
 
 export interface FormCheckboxInputProps {
@@ -165,14 +174,15 @@ export interface FormCheckboxInputProps {
   required?: boolean;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  [key: string]: any;
 }
 
-export function FormCheckboxInput({ name, required, className, onChange }: FormCheckboxInputProps) {
-  return <input type="checkbox" name={name} required={required} className={className} onChange={onChange} />;
+export function FormCheckboxInput({ name, required, className, onChange, ...rest }: FormCheckboxInputProps) {
+  return <input {...rest} type="checkbox" name={name} required={required} className={className} onChange={onChange} />;
 }
 
-export function FormRadioWrapper({ className, children }: FormWrapperProps) {
-  return <label className={`${className || ''} w-radio`}>{children}</label>;
+export function FormRadioWrapper({ className, children, ...rest }: FormWrapperProps) {
+  return <label {...rest} className={`${className || ''} w-radio`}>{children}</label>;
 }
 
 export interface FormRadioInputProps {
@@ -181,45 +191,47 @@ export interface FormRadioInputProps {
   required?: boolean;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  [key: string]: any;
 }
 
-export function FormRadioInput({ name, value, required, className, onChange }: FormRadioInputProps) {
-  return <input type="radio" name={name} value={value} required={required} className={className} onChange={onChange} />;
+export function FormRadioInput({ name, value, required, className, onChange, ...rest }: FormRadioInputProps) {
+  return <input {...rest} type="radio" name={name} value={value} required={required} className={className} onChange={onChange} />;
 }
 
 export interface FormMessageProps {
   text?: string;
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function FormSuccessMessage({ text, className, children }: FormMessageProps) {
-  return <div className={`${className || ''} w-form-done`}>{children || text || 'Thank you! Your submission has been received!'}</div>;
+export function FormSuccessMessage({ text, className, children, ...rest }: FormMessageProps) {
+  return <div {...rest} className={`${className || ''} w-form-done`}>{children || text || 'Thank you! Your submission has been received!'}</div>;
 }
 
-export function FormErrorMessage({ text, className, children }: FormMessageProps) {
-  return <div className={`${className || ''} w-form-fail`}>{children || text || 'Oops! Something went wrong.'}</div>;
+export function FormErrorMessage({ text, className, children, ...rest }: FormMessageProps) {
+  return <div {...rest} className={`${className || ''} w-form-fail`}>{children || text || 'Oops! Something went wrong.'}</div>;
 }
 
 // File upload components (simplified)
-export function FormFileUploadWrapper({ className, children }: FormWrapperProps) {
-  return <div className={className}>{children}</div>;
+export function FormFileUploadWrapper({ className, children, ...rest }: FormWrapperProps) {
+  return <div {...rest} className={className}>{children}</div>;
 }
 
-export function FormFileUploadDefault({ className, children }: FormWrapperProps) {
-  return <div className={className}>{children}</div>;
+export function FormFileUploadDefault({ className, children, ...rest }: FormWrapperProps) {
+  return <div {...rest} className={className}>{children}</div>;
 }
 
-export function FormFileUploadUploading({ className, children }: FormWrapperProps) {
-  return <div className={className}>{children}</div>;
+export function FormFileUploadUploading({ className, children, ...rest }: FormWrapperProps) {
+  return <div {...rest} className={className}>{children}</div>;
 }
 
-export function FormFileUploadSuccess({ className, children }: FormWrapperProps) {
-  return <div className={className}>{children}</div>;
+export function FormFileUploadSuccess({ className, children, ...rest }: FormWrapperProps) {
+  return <div {...rest} className={className}>{children}</div>;
 }
 
-export function FormFileUploadError({ className, children }: FormWrapperProps) {
-  return <div className={className}>{children}</div>;
+export function FormFileUploadError({ className, children, ...rest }: FormWrapperProps) {
+  return <div {...rest} className={className}>{children}</div>;
 }
 
 export interface FormFileUploadInputProps {
@@ -227,25 +239,27 @@ export interface FormFileUploadInputProps {
   accept?: string;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  [key: string]: any;
 }
 
-export function FormFileUploadInput({ name, accept, className, onChange }: FormFileUploadInputProps) {
-  return <input type="file" name={name} accept={accept} className={className} onChange={onChange} />;
+export function FormFileUploadInput({ name, accept, className, onChange, ...rest }: FormFileUploadInputProps) {
+  return <input {...rest} type="file" name={name} accept={accept} className={className} onChange={onChange} />;
 }
 
-export function FormFileUploadLabel({ text, className, children }: FormMessageProps) {
-  return <div className={className}>{children || text}</div>;
+export function FormFileUploadLabel({ text, className, children, ...rest }: FormMessageProps) {
+  return <div {...rest} className={className}>{children || text}</div>;
 }
 
-export function FormFileUploadErrorMsg({ text, className, children }: FormMessageProps) {
-  return <div className={className}>{children || text}</div>;
+export function FormFileUploadErrorMsg({ text, className, children, ...rest }: FormMessageProps) {
+  return <div {...rest} className={className}>{children || text}</div>;
 }
 
 export interface FormReCaptchaProps {
   siteKey?: string;
   className?: string;
+  [key: string]: any;
 }
 
-export function FormReCaptcha({ siteKey, className }: FormReCaptchaProps) {
-  return <div className={className} data-sitekey={siteKey} />;
+export function FormReCaptcha({ siteKey, className, ...rest }: FormReCaptchaProps) {
+  return <div {...rest} className={className} data-sitekey={siteKey} />;
 }

@@ -41,6 +41,7 @@ export interface DropdownWrapperProps extends DropdownProps {
   accordion?: boolean;
   /** Start in open state */
   startOpen?: boolean;
+  [key: string]: any;
 }
 
 export function DropdownWrapper({
@@ -50,6 +51,7 @@ export function DropdownWrapper({
   hover = false,
   delay = 200,
   startOpen = false,
+  ...rest
 }: DropdownWrapperProps) {
   // Accordion always uses click mode
   const isHover = !accordion && hover;
@@ -86,6 +88,7 @@ export function DropdownWrapper({
   return (
     <DropdownContext.Provider value={{ isOpen, toggle, open, close, isAccordion: accordion }}>
       <div
+        {...rest}
         ref={wrapperRef}
         className={`${className || ''} w-dropdown ${isOpen ? 'w--open' : ''}`}
         onMouseEnter={isHover ? open : undefined}
@@ -103,13 +106,15 @@ export interface DropdownToggleProps {
   text?: string;
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function DropdownToggle({ text, className, children }: DropdownToggleProps) {
+export function DropdownToggle({ text, className, children, ...rest }: DropdownToggleProps) {
   const { toggle, isOpen, isAccordion } = useDropdownContext();
 
   return (
     <div
+      {...rest}
       className={`${className || ''} w-dropdown-toggle`}
       onClick={isAccordion ? toggle : undefined}
       style={{ cursor: 'pointer' }}
@@ -122,11 +127,18 @@ export function DropdownToggle({ text, className, children }: DropdownToggleProp
   );
 }
 
-export function DropdownList({ className, children }: DropdownWrapperProps) {
+export interface DropdownListProps {
+  className?: string;
+  children?: React.ReactNode;
+  [key: string]: any;
+}
+
+export function DropdownList({ className, children, ...rest }: DropdownListProps) {
   const { isOpen } = useDropdownContext();
 
   return (
     <nav
+      {...rest}
       className={`${className || ''} w-dropdown-list ${isOpen ? 'w--open' : ''}`}
       role="menu"
     >
@@ -140,9 +152,10 @@ export interface DropdownLinkProps {
   href?: string;
   className?: string;
   children?: React.ReactNode;
+  [key: string]: any;
 }
 
-export function DropdownLink({ text, href = '#', className, children }: DropdownLinkProps) {
+export function DropdownLink({ text, href = '#', className, children, ...rest }: DropdownLinkProps) {
   const { close, isAccordion } = useDropdownContext();
 
   const handleClick = () => {
@@ -151,6 +164,7 @@ export function DropdownLink({ text, href = '#', className, children }: Dropdown
 
   return (
     <a
+      {...rest}
       className={`${className || ''} w-dropdown-link`}
       href={href}
       onClick={handleClick}
@@ -169,16 +183,17 @@ export interface AccordionItemProps {
   className?: string;
   children?: React.ReactNode;
   defaultOpen?: boolean;
+  [key: string]: any;
 }
 
-export function AccordionItem({ className, children }: AccordionItemProps) {
-  return <DropdownWrapper className={className} accordion>{children}</DropdownWrapper>;
+export function AccordionItem({ className, children, ...rest }: AccordionItemProps) {
+  return <DropdownWrapper {...rest} className={className} accordion>{children}</DropdownWrapper>;
 }
 
-export function AccordionTrigger({ className, children }: { className?: string; children?: React.ReactNode }) {
-  return <DropdownToggle className={className}>{children}</DropdownToggle>;
+export function AccordionTrigger({ className, children, ...rest }: { className?: string; children?: React.ReactNode; [key: string]: any }) {
+  return <DropdownToggle {...rest} className={className}>{children}</DropdownToggle>;
 }
 
-export function AccordionContent({ className, children }: { className?: string; children?: React.ReactNode }) {
-  return <DropdownList className={className}>{children}</DropdownList>;
+export function AccordionContent({ className, children, ...rest }: { className?: string; children?: React.ReactNode; [key: string]: any }) {
+  return <DropdownList {...rest} className={className}>{children}</DropdownList>;
 }
