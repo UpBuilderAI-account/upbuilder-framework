@@ -103,6 +103,28 @@ export function SwiperSlider({
   let customScrollbar: React.ReactNode = null;
   const otherChildren: React.ReactNode[] = [];
 
+  // Recursively find swiper control components in children
+  const findSwiperControls = (nodes: React.ReactNode): void => {
+    Children.forEach(nodes, (child) => {
+      if (!isValidElement(child)) return;
+
+      const displayName = (child.type as any)?.displayName || (child.type as any)?.name;
+
+      if (displayName === 'SwiperNavPrev' || child.type === SwiperNavPrev) {
+        customPrevNav = child;
+      } else if (displayName === 'SwiperNavNext' || child.type === SwiperNavNext) {
+        customNextNav = child;
+      } else if (displayName === 'SwiperPagination' || child.type === SwiperPagination) {
+        customPagination = child;
+      } else if (displayName === 'SwiperScrollbar' || child.type === SwiperScrollbar) {
+        customScrollbar = child;
+      } else if ((child.props as any)?.children) {
+        // Recursively search in nested children (e.g., Block wrapping nav buttons)
+        findSwiperControls((child.props as any).children);
+      }
+    });
+  };
+
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) {
       otherChildren.push(child);
@@ -122,6 +144,8 @@ export function SwiperSlider({
     } else if (displayName === 'SwiperScrollbar' || child.type === SwiperScrollbar) {
       customScrollbar = child;
     } else {
+      // For other children (like Block wrappers), search recursively for controls
+      findSwiperControls((child.props as any)?.children);
       otherChildren.push(child);
     }
   });
