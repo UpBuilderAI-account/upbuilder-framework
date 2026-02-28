@@ -73,9 +73,9 @@ export function DropdownWrapper({
     }
   };
 
-  // Close on click outside (for click mode / accordion)
+  // Close on click outside (for all modes including hover)
   useEffect(() => {
-    if (!isOpen || isHover) return;
+    if (!isOpen) return;
     const handleClick = (e: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
         setIsOpen(false);
@@ -116,7 +116,7 @@ export function DropdownToggle({ text, className, children, ...rest }: DropdownT
     <div
       {...rest}
       className={`${className || ''} w-dropdown-toggle`}
-      onClick={isAccordion ? toggle : undefined}
+      onClick={toggle}
       style={{ cursor: 'pointer' }}
       aria-expanded={isOpen}
       aria-haspopup="true"

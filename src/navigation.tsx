@@ -106,6 +106,7 @@ export function NavbarWrapper({ className, children, collapse, settings, ...rest
   );
 }
 
+/** @deprecated Use Block instead - NavbarContainer is not a valid Webflow component */
 export function NavbarContainer({ className, children, ...rest }: { className?: string; children?: React.ReactNode; [key: string]: any }) {
   return <div {...rest} className={className}>{children}</div>;
 }

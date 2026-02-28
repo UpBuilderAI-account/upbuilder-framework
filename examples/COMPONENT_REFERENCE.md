@@ -322,12 +322,12 @@ import { HFlex, VFlex } from '@upbuilder/react-framework';
 ```tsx
 import {
   NavbarWrapper,
-  NavbarContainer,
   NavbarBrand,
   NavbarMenu,
   NavbarLink,
   NavbarButton,
   HamburgerIcon,
+  Block,
   Image,
   Link,
   DropdownWrapper,
@@ -337,7 +337,7 @@ import {
 } from '@upbuilder/react-framework';
 
 <NavbarWrapper className="navbar" collapse="medium">
-  <NavbarContainer className="navbar_container">
+  <Block className="navbar_container">
     {/* Logo */}
     <NavbarBrand href="/" className="navbar_brand">
       <Image src="logo.svg" alt="Logo" className="navbar_logo" />
@@ -371,7 +371,7 @@ import {
     <NavbarButton className="navbar_menu-button">
       <HamburgerIcon />
     </NavbarButton>
-  </NavbarContainer>
+  </Block>
 </NavbarWrapper>
 ```
 
@@ -1085,7 +1085,7 @@ import { List, ListItem } from '@upbuilder/react-framework';
 import { Image, Video, BackgroundVideoWrapper, HtmlEmbed } from '@upbuilder/react-framework';
 
 // Navigation
-import { NavbarWrapper, NavbarContainer, NavbarBrand, NavbarMenu, NavbarLink, NavbarButton, HamburgerIcon } from '@upbuilder/react-framework';
+import { NavbarWrapper, NavbarBrand, NavbarMenu, NavbarLink, NavbarButton, HamburgerIcon } from '@upbuilder/react-framework';
 
 // Dropdown/Accordion
 import { DropdownWrapper, DropdownToggle, DropdownList, DropdownLink } from '@upbuilder/react-framework';
