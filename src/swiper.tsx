@@ -221,10 +221,12 @@ SwiperSlide.displayName = 'SwiperSlide';
 
 /**
  * SwiperNavPrev - Previous navigation button
+ * NOTE: We don't add swiper-button-prev class because it shows Swiper's default arrow via ::after
+ * The init script connects this element via data-swiper-nav attribute instead
  */
 export function SwiperNavPrev({ className, children, ...props }: { className?: string; children?: React.ReactNode; [key: string]: any }) {
   return (
-    <div className={`${className || ''} swiper-button-prev`} role="button" tabIndex={0} aria-label="Previous slide" {...props}>
+    <div className={className || ''} role="button" tabIndex={0} aria-label="Previous slide" data-swiper-nav="prev" {...props}>
       {children || (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <polyline points="15 18 9 12 15 6" />
@@ -237,10 +239,12 @@ SwiperNavPrev.displayName = 'SwiperNavPrev';
 
 /**
  * SwiperNavNext - Next navigation button
+ * NOTE: We don't add swiper-button-next class because it shows Swiper's default arrow via ::after
+ * The init script connects this element via data-swiper-nav attribute instead
  */
 export function SwiperNavNext({ className, children, ...props }: { className?: string; children?: React.ReactNode; [key: string]: any }) {
   return (
-    <div className={`${className || ''} swiper-button-next`} role="button" tabIndex={0} aria-label="Next slide" {...props}>
+    <div className={className || ''} role="button" tabIndex={0} aria-label="Next slide" data-swiper-nav="next" {...props}>
       {children || (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <polyline points="9 18 15 12 9 6" />
@@ -253,16 +257,19 @@ SwiperNavNext.displayName = 'SwiperNavNext';
 
 /**
  * SwiperPagination - Pagination dots/bullets
+ * NOTE: We don't add swiper-pagination class because it shows Swiper's default dots
+ * For custom pagination, use your own styling; for default dots, Swiper will populate this element
  */
 export function SwiperPagination({ className, ...props }: { className?: string; [key: string]: any }) {
-  return <div className={`${className || ''} swiper-pagination`} {...props} />;
+  return <div className={className || ''} data-swiper-pagination="true" {...props} />;
 }
 SwiperPagination.displayName = 'SwiperPagination';
 
 /**
  * SwiperScrollbar - Scrollbar
+ * NOTE: We don't add swiper-scrollbar class because it shows Swiper's default scrollbar
  */
 export function SwiperScrollbar({ className, ...props }: { className?: string; [key: string]: any }) {
-  return <div className={`${className || ''} swiper-scrollbar`} {...props} />;
+  return <div className={className || ''} data-swiper-scrollbar="true" {...props} />;
 }
 SwiperScrollbar.displayName = 'SwiperScrollbar';
