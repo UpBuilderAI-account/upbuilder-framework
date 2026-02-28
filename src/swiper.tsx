@@ -155,7 +155,7 @@ export function SwiperSlider({
       : false;
 
   return (
-    <div className={`${className || ''} swiper-container`} {...props}>
+    <div className={`${className || ''} swiper`} data-swiper-container="true" {...props}>
       <Swiper
         modules={modules}
         slidesPerView={slidesPerView}
@@ -212,7 +212,7 @@ export function SwiperSlider({
  */
 export function SwiperSlide({ className, children, ...props }: SwiperSlideProps) {
   return (
-    <div className={`${className || ''} swiper-slide`} {...props}>
+    <div className={`${className || ''} swiper-slide`} data-swiper-slide="true" {...props}>
       {children}
     </div>
   );
