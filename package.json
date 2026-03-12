@@ -6,11 +6,11 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./defaults.css": "./defaults.css"
+    "./webflow-defaults": "./webflow-defaults/index.ts"
   },
   "files": [
     "src",
-    "defaults.css",
+    "webflow-defaults",
     "examples"
   ],
   "dependencies": {

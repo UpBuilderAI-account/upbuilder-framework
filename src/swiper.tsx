@@ -178,6 +178,11 @@ export function SwiperSlider({
       ? { ...scrollbar, el: customScrollbar ? scrollbarRef.current : undefined }
       : false;
 
+  // Determine if we have custom controls - if so, disable Swiper's default creation
+  const hasCustomNav = !!(customPrevNav || customNextNav);
+  const hasCustomPagination = !!customPagination;
+  const hasCustomScrollbar = !!customScrollbar;
+
   return (
     <div className={`${className || ''} swiper`} data-swiper-container="true" {...props}>
       <Swiper
@@ -191,28 +196,54 @@ export function SwiperSlider({
         slidesPerGroup={slidesPerGroup}
         autoplay={autoplayConfig}
         effect={effect}
-        navigation={
-          navigation
-            ? {
-                prevEl: customPrevNav ? prevRef.current : undefined,
-                nextEl: customNextNav ? nextRef.current : undefined,
-              }
-            : false
-        }
-        pagination={paginationConfig}
-        scrollbar={scrollbarConfig}
+        // Disable default navigation if we have custom nav elements
+        // We'll connect them manually in onSwiper after refs are ready
+        navigation={navigation && !hasCustomNav}
+        pagination={paginationConfig && !hasCustomPagination ? paginationConfig : false}
+        scrollbar={scrollbarConfig && !hasCustomScrollbar ? scrollbarConfig : false}
         allowTouchMove={allowTouchMove}
         grabCursor={grabCursor}
         freeMode={freeMode}
         centeredSlides={centeredSlides}
         breakpoints={breakpoints}
-        onBeforeInit={(swiper) => {
-          // Connect custom navigation elements after init
-          if (customPrevNav && prevRef.current && typeof swiper.params.navigation === 'object') {
-            swiper.params.navigation.prevEl = prevRef.current;
+        onSwiper={(swiper) => {
+          // Connect custom navigation elements after Swiper is initialized and refs are ready
+          // Use setTimeout to ensure refs are attached to DOM
+          if (hasCustomNav && navigation) {
+            setTimeout(() => {
+              if (prevRef.current || nextRef.current) {
+                swiper.params.navigation = {
+                  prevEl: prevRef.current,
+                  nextEl: nextRef.current,
+                };
+                swiper.navigation.init();
+                swiper.navigation.update();
+              }
+            }, 0);
           }
-          if (customNextNav && nextRef.current && typeof swiper.params.navigation === 'object') {
-            swiper.params.navigation.nextEl = nextRef.current;
+          if (hasCustomPagination && pagination) {
+            setTimeout(() => {
+              if (paginationRef.current) {
+                swiper.params.pagination = {
+                  ...(typeof paginationConfig === 'object' ? paginationConfig : { clickable: true }),
+                  el: paginationRef.current,
+                };
+                swiper.pagination.init();
+                swiper.pagination.update();
+              }
+            }, 0);
+          }
+          if (hasCustomScrollbar && scrollbar) {
+            setTimeout(() => {
+              if (scrollbarRef.current) {
+                swiper.params.scrollbar = {
+                  ...(typeof scrollbarConfig === 'object' ? scrollbarConfig : { draggable: true }),
+                  el: scrollbarRef.current,
+                };
+                swiper.scrollbar.init();
+                swiper.scrollbar.update();
+              }
+            }, 0);
           }
         }}
       >

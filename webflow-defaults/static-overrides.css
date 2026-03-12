@@ -1,0 +1,92 @@
+/* ==========================================================================
+   WEBFLOW DEFAULTS - STATIC OVERRIDES
+   Editor preview overrides - force interactive components to static state
+   Only included when mode='static'
+   ========================================================================== */
+
+/* ========== NAVBAR ========== */
+/* Always show desktop menu in editor */
+.w-nav-menu {
+  display: flex !important;
+}
+
+/* Hide mobile overlay */
+.w-nav-overlay {
+  display: none !important;
+}
+
+/* NavbarButton (hamburger) - hidden on desktop, visible on tablet/mobile */
+[data-wf-component="NavbarButton"],
+.w-nav-button {
+  display: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 991px) {
+  [data-wf-component="NavbarButton"],
+  .w-nav-button {
+    display: block;
+  }
+}
+
+/* Default hamburger icon styling */
+[data-wf-component="NavbarButton"] [data-wf-component="HamburgerIcon"],
+[data-wf-component="NavbarButton"] .w-icon-nav-menu,
+[data-wf-component="NavbarButton"]:empty::before {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  padding: 0;
+}
+
+/* Hamburger lines using pseudo-elements */
+[data-wf-component="NavbarButton"] [data-wf-component="HamburgerIcon"]::before,
+[data-wf-component="NavbarButton"] [data-wf-component="HamburgerIcon"]::after,
+[data-wf-component="NavbarButton"] .w-icon-nav-menu::before,
+[data-wf-component="NavbarButton"] .w-icon-nav-menu::after {
+  content: '';
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-color: currentColor;
+  border-radius: 1px;
+}
+
+/* Middle line using box-shadow on ::before */
+[data-wf-component="NavbarButton"] [data-wf-component="HamburgerIcon"]::before,
+[data-wf-component="NavbarButton"] .w-icon-nav-menu::before {
+  box-shadow: 0 8px 0 currentColor;
+}
+
+/* ========== DROPDOWNS ========== */
+/* Show closed (hide dropdown list) */
+.w-dropdown-list {
+  display: none !important;
+}
+
+/* Accordions/FAQ - same as dropdown, show closed */
+.w-dropdown.w-dropdown--accordion .w-dropdown-list {
+  display: none !important;
+}
+
+/* ========== TABS ========== */
+/* Show only first pane */
+.w-tab-pane {
+  display: none !important;
+}
+
+.w-tab-pane:first-child,
+.w-tab-pane.w--tab-active {
+  display: block !important;
+}
+
+/* Style first tab link as active */
+.w-tab-link:first-child {
+  opacity: 1;
+}
+
+.w-tab-link:not(:first-child) {
+  opacity: 0.6;
+}

@@ -1,0 +1,43 @@
+/* ==========================================================================
+   WEBFLOW DEFAULTS - LAYOUT
+   Layout utilities and containers
+   ========================================================================== */
+
+.w-inline-block {
+  display: inline-block;
+}
+
+.w-container {
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+@media (max-width: 991px) {
+  .w-container {
+    max-width: 728px;
+  }
+}
+
+@media (max-width: 767px) {
+  .w-container {
+    max-width: none;
+  }
+}
+
+.w-layout-grid {
+  display: grid;
+}
+
+.w-layout-vflex {
+  display: flex;
+  flex-direction: column;
+}
+
+.w-layout-hflex {
+  display: flex;
+  flex-direction: row;
+}
+
+.w-layout-blockcontainer {
+  display: block;
+}

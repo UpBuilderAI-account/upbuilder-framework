@@ -68,14 +68,53 @@ export function SearchResults({ className, children, ...rest }: DynamoWrapperPro
   return <div {...rest} className={className}>{children}</div>;
 }
 
+export interface LightboxItem {
+  url: string;
+  type?: 'image' | 'video';
+  caption?: string;
+  thumbnail?: string;
+}
+
 export interface LightboxWrapperProps {
   className?: string;
   children?: React.ReactNode;
+  /** Lightbox group name - items with same group can be navigated together */
+  group?: string;
+  /** Media items to show in lightbox (images/videos) */
+  items?: LightboxItem[];
+  /** Exclude from site search */
+  searchExclude?: boolean;
   [key: string]: any;
 }
 
-export function LightboxWrapper({ className, children, ...rest }: LightboxWrapperProps) {
-  return <div {...rest} className={`${className || ''} w-lightbox`}>{children}</div>;
+export function LightboxWrapper({ className, children, group, items, searchExclude, ...rest }: LightboxWrapperProps) {
+  // In React preview, just render as clickable - lightbox behavior handled by Webflow
+  return (
+    <a
+      {...rest}
+      href="#"
+      className={`${className || ''} w-lightbox`}
+      data-lightbox-group={group}
+      onClick={(e) => e.preventDefault()}
+    >
+      {children}
+    </a>
+  );
+}
+
+export interface LightboxLinkProps {
+  className?: string;
+  children?: React.ReactNode;
+  href?: string;
+  [key: string]: any;
+}
+
+export function LightboxLink({ className, children, href = '#', ...rest }: LightboxLinkProps) {
+  return (
+    <a {...rest} href={href} className={`${className || ''} w-lightbox-link`}>
+      {children}
+    </a>
+  );
 }
 
 export interface MapWidgetProps {
