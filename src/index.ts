@@ -1,4 +1,19 @@
 // ============================================================================
+// @upbuilder/react-framework
+// Single source of truth for components, types, and registry
+// ============================================================================
+
+// ============================================================================
+// CORE TYPES & UTILITIES
+// ============================================================================
+
+// Types: Breakpoints, PseudoStates, Styles, ComponentSettings
+export * from './types';
+
+// Registry: Component definitions, helpers (getDefaultTag, getXSCPType, etc.)
+export * from './registry';
+
+// ============================================================================
 // UI COMPONENTS
 // Re-exports all components from category files
 // ============================================================================

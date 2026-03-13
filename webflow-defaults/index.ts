@@ -7,6 +7,17 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import {
+  buildComponentFeaturesMap,
+  getComponentFeature,
+  getWebflowClasses,
+  getDefaultTag,
+  getXSCPType,
+  isVoidElement,
+  COMPONENT_REGISTRY,
+  type ComponentDefinition,
+} from '../src/registry';
+import type { ComponentFeature } from '../src/types';
 
 // =============================================================================
 // CSS LOADING
@@ -117,69 +128,10 @@ export interface GeneratedCSS {
 
 // =============================================================================
 // COMPONENT DETECTION MAPPING
+// Generated from the component registry - single source of truth
 // =============================================================================
 
-const COMPONENT_FEATURES: Record<string, keyof UsedComponents> = {
-  // Navbar
-  'NavbarWrapper': 'navbar',
-  'NavbarBrand': 'navbar',
-  'NavbarMenu': 'navbar',
-  'NavbarLink': 'navbar',
-  'NavbarButton': 'navbar',
-  'HamburgerIcon': 'navbar',
-
-  // Dropdown
-  'DropdownWrapper': 'dropdown',
-  'DropdownToggle': 'dropdown',
-  'DropdownList': 'dropdown',
-  'DropdownLink': 'dropdown',
-  'AccordionItem': 'dropdown',
-  'AccordionTrigger': 'dropdown',
-  'AccordionContent': 'dropdown',
-
-  // Tabs
-  'TabsWrapper': 'tabs',
-  'TabsMenu': 'tabs',
-  'TabsLink': 'tabs',
-  'TabsContent': 'tabs',
-  'TabsPane': 'tabs',
-
-  // Swiper
-  'SwiperSlider': 'swiper',
-  'SwiperSlide': 'swiper',
-  'SwiperNavPrev': 'swiper',
-  'SwiperNavNext': 'swiper',
-  'SwiperPagination': 'swiper',
-  'SwiperScrollbar': 'swiper',
-
-  // Forms
-  'FormWrapper': 'forms',
-  'FormForm': 'forms',
-  'FormTextInput': 'forms',
-  'FormTextarea': 'forms',
-  'FormSelect': 'forms',
-  'FormButton': 'forms',
-  'FormCheckboxWrapper': 'forms',
-  'FormCheckboxInput': 'forms',
-  'FormRadioWrapper': 'forms',
-  'FormRadioInput': 'forms',
-  'FormBlockLabel': 'forms',
-  'FormInlineLabel': 'forms',
-  'FormSuccessMessage': 'forms',
-  'FormErrorMessage': 'forms',
-  'FormFileUploadWrapper': 'forms',
-  'FormFileUploadInput': 'forms',
-  'FormReCaptcha': 'forms',
-
-  // Lightbox
-  'LightboxWrapper': 'lightbox',
-  'LightboxLink': 'lightbox',
-
-  // Video
-  'Video': 'video',
-  'BackgroundVideoWrapper': 'video',
-  'BackgroundVideoPlayPauseButton': 'video',
-};
+const COMPONENT_FEATURES: Record<string, ComponentFeature> = buildComponentFeaturesMap();
 
 // Swiper CDN URL
 const SWIPER_CDN_URL = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
@@ -299,6 +251,21 @@ export {
   COMPONENT_FEATURES,
   SWIPER_CDN_URL,
 };
+
+// Re-export registry utilities for convenience
+export {
+  buildComponentFeaturesMap,
+  getComponentFeature,
+  getWebflowClasses,
+  getDefaultTag,
+  getXSCPType,
+  isVoidElement,
+  COMPONENT_REGISTRY,
+} from '../src/registry';
+
+// Re-export types
+export type { ComponentDefinition } from '../src/registry';
+export type { ComponentFeature, UsedFeatures } from '../src/types';
 
 // Export individual CSS chunk getters for advanced usage
 export const cssChunks = {
