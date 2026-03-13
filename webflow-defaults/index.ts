@@ -7,16 +7,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import {
-  buildComponentFeaturesMap,
-  getComponentFeature,
-  getWebflowClasses,
-  getDefaultTag,
-  getXSCPType,
-  isVoidElement,
-  COMPONENT_REGISTRY,
-  type ComponentDefinition,
-} from '../src/registry';
+import { buildComponentFeaturesMap } from '../src/registry';
 import type { ComponentFeature } from '../src/types';
 
 // =============================================================================
