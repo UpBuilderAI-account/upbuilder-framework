@@ -9,17 +9,45 @@
 
 export const BREAKPOINTS = {
   desktop: { min: 992 },
-  tablet: { max: 991, min: 480 },
+  tablet: { max: 991, min: 768 },
+  mobileLandscape: { max: 767, min: 480 },
   mobile: { max: 479 },
 } as const;
 
 export type Breakpoint = keyof typeof BREAKPOINTS;
 
+/** Valid breakpoint max-widths with 1px tolerance */
+export const VALID_BREAKPOINT_WIDTHS = {
+  tablet: [991, 992] as const,
+  mobileLandscape: [767, 768] as const,
+  mobile: [479, 480] as const,
+} as const;
+
+/** Set of all valid breakpoint widths for quick validation */
+export const ALL_VALID_BREAKPOINT_WIDTHS = new Set<number>([
+  ...VALID_BREAKPOINT_WIDTHS.tablet,
+  ...VALID_BREAKPOINT_WIDTHS.mobileLandscape,
+  ...VALID_BREAKPOINT_WIDTHS.mobile,
+]);
+
+/** Check if a width is a valid breakpoint */
+export function isValidBreakpointWidth(width: number): boolean {
+  return ALL_VALID_BREAKPOINT_WIDTHS.has(width);
+}
+
+/** Get breakpoint name for a width */
+export function getBreakpointForWidth(width: number): 'tablet' | 'mobileLandscape' | 'mobile' | null {
+  if ((VALID_BREAKPOINT_WIDTHS.tablet as readonly number[]).includes(width)) return 'tablet';
+  if ((VALID_BREAKPOINT_WIDTHS.mobileLandscape as readonly number[]).includes(width)) return 'mobileLandscape';
+  if ((VALID_BREAKPOINT_WIDTHS.mobile as readonly number[]).includes(width)) return 'mobile';
+  return null;
+}
+
 /** Legacy breakpoint aliases for backward compatibility */
 export const BREAKPOINT_ALIASES: Record<string, Breakpoint> = {
   main: 'desktop',
   medium: 'tablet',
-  small: 'mobile',
+  small: 'mobileLandscape',
   tiny: 'mobile',
 };
 
@@ -109,6 +137,7 @@ export interface FrameworkStyle {
   css: {
     desktop?: BreakpointStyles;
     tablet?: BreakpointStyles;
+    mobileLandscape?: BreakpointStyles;
     mobile?: BreakpointStyles;
   };
   /** Number of elements using this style */
@@ -126,6 +155,7 @@ export function convertLegacyStyle(legacy: {
   comb?: string;
   main?: string;
   medium?: string;
+  small?: string;
   tiny?: string;
   hover?: string;
   focus?: string;
@@ -143,6 +173,7 @@ export function convertLegacyStyle(legacy: {
         active: legacy.active,
       },
       tablet: legacy.medium ? { none: legacy.medium } : undefined,
+      mobileLandscape: legacy.small ? { none: legacy.small } : undefined,
       mobile: legacy.tiny ? { none: legacy.tiny } : undefined,
     },
   };
