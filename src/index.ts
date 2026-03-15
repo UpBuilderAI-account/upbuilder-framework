@@ -44,6 +44,3 @@ export * from './forms';
 
 // CMS & Other
 export * from './cms';
-
-// Error Boundary
-export * from './error-boundary';

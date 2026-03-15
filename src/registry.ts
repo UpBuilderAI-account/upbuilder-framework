@@ -71,12 +71,15 @@ export const COMPONENT_REGISTRY: Record<string, ComponentDefinition> = {
   },
   HFlex: {
     tag: 'div',
+    webflowClasses: ['w-layout-hflex'],
   },
   VFlex: {
     tag: 'div',
+    webflowClasses: ['w-layout-vflex'],
   },
   Grid: {
     tag: 'div',
+    webflowClasses: ['w-layout-grid'],
   },
   Row: {
     tag: 'div',
@@ -141,6 +144,7 @@ export const COMPONENT_REGISTRY: Record<string, ComponentDefinition> = {
   },
   CodeBlock: {
     tag: 'pre',
+    webflowClasses: ['w-code-block'],
   },
 
   // -------------------------------------------------------------------------
@@ -323,31 +327,37 @@ export const COMPONENT_REGISTRY: Record<string, ComponentDefinition> = {
 
   // -------------------------------------------------------------------------
   // SWIPER SLIDER
+  // Uses Swiper.js library, NOT Webflow's native slider
+  // All components render as Block (div) - Swiper handles functionality via JS
   // -------------------------------------------------------------------------
   SwiperSlider: {
     tag: 'div',
-    xscpType: 'SliderWrapper',
+    xscpType: 'Block',
     feature: 'swiper',
   },
   SwiperSlide: {
     tag: 'div',
-    xscpType: 'SliderSlide',
+    xscpType: 'Block',
     feature: 'swiper',
   },
   SwiperNavPrev: {
     tag: 'div',
+    xscpType: 'Block',
     feature: 'swiper',
   },
   SwiperNavNext: {
     tag: 'div',
+    xscpType: 'Block',
     feature: 'swiper',
   },
   SwiperPagination: {
     tag: 'div',
+    xscpType: 'Block',
     feature: 'swiper',
   },
   SwiperScrollbar: {
     tag: 'div',
+    xscpType: 'Block',
     feature: 'swiper',
   },
 
